@@ -45,6 +45,12 @@ $peg-colors: (
   margin: 0;
 }
 
+.game-exit-btn {
+  font-size: 1.08rem;
+  padding: .66rem 1.35rem;
+  border-width: 2px;
+}
+
 // ── Result banner ─────────────────────────────────────────────────────────────
 .result-banner {
   display: flex;
@@ -309,3 +315,10 @@ $peg-colors: (
 }
 
 .btn--sm { padding: .4rem .9rem; font-size: .85rem; }
+
+@media (max-width: 1000px) {
+  .game-exit-btn {
+    font-size: .96rem;
+    padding: .52rem 1rem;
+  }
+}

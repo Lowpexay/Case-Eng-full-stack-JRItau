@@ -14,6 +14,12 @@
   width: 100%;
 }
 
+.ranking-back-btn {
+  font-size: 1.08rem;
+  padding: .66rem 1.35rem;
+  border-width: 2px;
+}
+
 .loading-state {
   display: flex;
   flex-direction: column;
@@ -107,3 +113,10 @@
 }
 
 .btn--sm { padding: .4rem .9rem; font-size: .85rem; }
+
+@media (max-width: 1000px) {
+  .ranking-back-btn {
+    font-size: .96rem;
+    padding: .52rem 1rem;
+  }
+}

@@ -9,8 +9,8 @@
       @if (user()) {
         <span class="navbar__user app-header__meta">{{ greeting() }}, <strong>{{ user()!.username }}</strong></span>
       }
-      <a routerLink="/ranking" class="btn btn--outline btn--sm app-header__btn">🏆 Ranking</a>
-      <button class="btn btn--ghost btn--sm app-header__btn" (click)="logout()">Sair</button>
+      <a routerLink="/ranking" class="btn btn--outline app-header__btn dashboard-header-btn">🏆 Ranking</a>
+      <button class="btn btn--outline app-header__btn dashboard-header-btn" (click)="logout()">Sair</button>
     </div>
   </nav>
 
