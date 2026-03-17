@@ -1,0 +1,64 @@
+<div class="ranking-page">
+  <nav class="topbar">
+    <div class="topbar__brand">
+      <img src="/itau-unibanco.png" alt="Itaú Unibanco" class="topbar__itau-logo" style="height:36px;width:auto;border-radius:6px;display:block;" />
+      <span class="topbar__divider"></span>
+      <span class="topbar__title">🟠 Mastermind</span>
+    </div>
+    <div class="topbar__actions">
+      <span class="topbar__section">🏆 Ranking Global</span>
+      <button class="btn btn--ghost btn--sm" (click)="goBack()">← Voltar</button>
+    </div>
+  </nav>
+
+  <main class="ranking-main">
+    @if (loading()) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Carregando ranking...</p>
+      </div>
+    } @else if (errorMsg()) {
+      <div class="alert alert--error">{{ errorMsg() }}</div>
+    } @else if (ranking().length === 0) {
+      <div class="empty-state">
+        <p>Nenhuma partida finalizada ainda.</p>
+        <button class="btn btn--primary" (click)="goBack()">Jogar agora</button>
+      </div>
+    } @else {
+      <div class="table-wrapper">
+        <table class="ranking-table">
+          <thead>
+            <tr>
+              <th>Pos.</th>
+              <th>Jogador</th>
+              <th>Melhor Pontuação</th>
+              <th>Vitórias</th>
+              <th>Partidas</th>
+              <th>Taxa de vitória</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (entry of ranking(); track entry.user_id) {
+              <tr [class.highlight]="entry.rank <= 3">
+                <td class="rank-cell">{{ medalFor(entry.rank) }}</td>
+                <td class="username-cell">{{ entry.username }}</td>
+                <td class="score-cell">{{ entry.best_score }}</td>
+                <td>{{ entry.wins }}</td>
+                <td>{{ entry.total_games }}</td>
+                <td>
+                  <div class="win-rate">
+                    <div
+                      class="win-rate__bar"
+                      [style.width.%]="entry.total_games > 0 ? (entry.wins / entry.total_games * 100) : 0"
+                    ></div>
+                    <span>{{ entry.total_games > 0 ? ((entry.wins / entry.total_games) * 100 | number:'1.0-0') : 0 }}%</span>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </main>
+</div>

@@ -1,0 +1,79 @@
+<div class="dashboard-page">
+  <nav class="navbar">
+    <div class="navbar__logo">
+      <img src="/itau-unibanco.png" alt="Itaú Unibanco" class="navbar__itau-logo" style="height:36px;width:auto;border-radius:6px;display:block;" />
+      <span class="navbar__divider"></span>
+      🟠 <span>Mastermind</span>
+    </div>
+    <div class="navbar__actions">
+      @if (user()) {
+        <span class="navbar__user">Olá, <strong>{{ user()!.username }}</strong></span>
+      }
+      <a routerLink="/ranking" class="btn btn--outline btn--sm">🏆 Ranking</a>
+      <button class="btn btn--ghost btn--sm" (click)="logout()">Sair</button>
+    </div>
+  </nav>
+
+  <main class="dashboard-main">
+    <section class="hero card">
+      <div class="hero__text">
+        <h2>Pronto para jogar?</h2>
+        <p>Adivinhe a sequência secreta de 4 cores em até 10 tentativas.</p>
+        @if (errorMsg()) {
+          <div class="alert alert--error">{{ errorMsg() }}</div>
+        }
+        <button class="btn btn--primary btn--lg" (click)="startGame()" [disabled]="loadingGame()">
+          @if (loadingGame()) {
+            <span class="spinner"></span> Aguarde...
+          } @else {
+            🎮 Nova Partida
+          }
+        </button>
+      </div>
+      <div class="hero__art">
+        <div class="peg-row">
+          @for (c of ['A','B','C','D','E','F']; track c) {
+            <div class="peg" [class]="'peg--' + c">{{ c }}</div>
+          }
+        </div>
+        <p class="hero__hint">6 cores disponíveis: A B C D E F</p>
+      </div>
+    </section>
+
+    <section class="recent-games">
+      <h3>Suas últimas partidas</h3>
+      @if (recentGames().length === 0) {
+        <p class="empty">Nenhuma partida finalizada ainda. Comece agora!</p>
+      } @else {
+        <div class="games-table-wrapper">
+          <table class="games-table">
+            <thead>
+              <tr>
+                <th>Resultado</th>
+                <th>Tentativas</th>
+                <th>Pontuação</th>
+                <th>Duração</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (game of recentGames(); track game.id) {
+                <tr>
+                  <td>
+                    @if (game.is_won) {
+                      <span class="badge badge--win">Vitória</span>
+                    } @else {
+                      <span class="badge badge--loss">Derrota</span>
+                    }
+                  </td>
+                  <td>{{ game.attempt_count }} / 10</td>
+                  <td class="score">{{ game.score ?? 0 }}</td>
+                  <td>{{ formatDuration(game.duration_seconds) }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  </main>
+</div>

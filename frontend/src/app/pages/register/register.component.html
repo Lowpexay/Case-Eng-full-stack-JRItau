@@ -1,0 +1,71 @@
+<div class="auth-page">
+  <div class="auth-card card">
+    <div class="auth-sponsor">
+      <img src="/itau-unibanco.png" alt="Itaú Unibanco" class="itau-logo" />
+    </div>
+    <div class="auth-logo">
+      <h1>Mastermind</h1>
+      <p class="subtitle">Crie sua conta</p>
+    </div>
+
+    @if (errorMsg()) {
+      <div class="alert alert--error">{{ errorMsg() }}</div>
+    }
+    @if (successMsg()) {
+      <div class="alert alert--success">{{ successMsg() }}</div>
+    }
+
+    <form #regForm="ngForm" (ngSubmit)="onSubmit(regForm)" novalidate>
+      <div class="form-group">
+        <label for="username">Usuário</label>
+        <input
+          id="username" name="username" type="text"
+          [(ngModel)]="username" required minlength="3" maxlength="50"
+          placeholder="Escolha um nome de usuário"
+          #usernameField="ngModel"
+        />
+        @if (usernameField.invalid && usernameField.touched) {
+          <span class="field-error">Mínimo 3 caracteres.</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input
+          id="email" name="email" type="email"
+          [(ngModel)]="email" required email
+          placeholder="seu@email.com"
+          #emailField="ngModel"
+        />
+        @if (emailField.invalid && emailField.touched) {
+          <span class="field-error">E-mail inválido.</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          id="password" name="password" type="password"
+          [(ngModel)]="password" required minlength="6"
+          placeholder="Mínimo 6 caracteres"
+          #passwordField="ngModel"
+        />
+        @if (passwordField.invalid && passwordField.touched) {
+          <span class="field-error">Senha mínima de 6 caracteres.</span>
+        }
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--full btn--lg" [disabled]="loading()">
+        @if (loading()) {
+          <span class="spinner"></span> Criando conta...
+        } @else {
+          Criar Conta
+        }
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      Já tem conta? <a routerLink="/login">Entrar</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,160 @@
+.ranking-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .75rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--primary);
+  }
+
+  &__itau-logo {
+    height: 36px;
+    width: auto;
+    border-radius: 6px;
+  }
+
+  &__divider {
+    display: block;
+    width: 1px;
+    height: 28px;
+    background: rgba(255,255,255,.2);
+  }
+
+  &__title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--primary);
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+  }
+
+  &__section {
+    color: var(--text-muted);
+    font-size: .9rem;
+    font-weight: 600;
+  }
+}
+
+.ranking-main {
+  max-width: 860px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem;
+  color: var(--text-muted);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.table-wrapper {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.06);
+  box-shadow: var(--shadow);
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+
+  th, td {
+    padding: .9rem 1.25rem;
+    text-align: left;
+  }
+
+  th {
+    background: var(--surface2);
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  td { border-top: 1px solid rgba(255,255,255,.04); }
+
+  tr.highlight {
+    background: rgba(249,115,22,.06);
+  }
+
+  tr:hover td { background: rgba(255,255,255,.02); }
+}
+
+.rank-cell {
+  font-size: 1.2rem;
+  text-align: center;
+  width: 60px;
+}
+
+.username-cell {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.score-cell {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.05rem;
+}
+
+.win-rate {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+
+  &__bar {
+    height: 8px;
+    background: var(--primary);
+    border-radius: 4px;
+    min-width: 4px;
+    max-width: 80px;
+    flex-shrink: 0;
+    transition: width .4s;
+  }
+
+  span {
+    font-size: .85rem;
+    color: var(--text-muted);
+  }
+}
+
+.btn--sm { padding: .4rem .9rem; font-size: .85rem; }

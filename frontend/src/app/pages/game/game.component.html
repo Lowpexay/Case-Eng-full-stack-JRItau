@@ -1,0 +1,167 @@
+<div class="game-page">
+  <!-- Top bar -->
+  <nav class="topbar">
+    <div class="topbar__brand">
+      <img src="/itau-unibanco.png" alt="Itaú Unibanco" class="topbar__itau-logo" style="height:36px;width:auto;border-radius:6px;display:block;" />
+      <span class="topbar__divider"></span>
+      <span class="topbar__title">🟠 Mastermind</span>
+    </div>
+    <div class="topbar__actions">
+      <span class="topbar__timer">⏱ {{ formatTime(elapsedSeconds()) }}</span>
+      <button class="btn btn--ghost btn--sm" (click)="goToDashboard()">← Sair</button>
+    </div>
+  </nav>
+
+  <!-- Status bar -->
+  <div class="status-bar">
+    <span>Tentativas restantes: <strong>{{ remainingAttempts() }}</strong></span>
+    @if (errorMsg()) {
+      <span class="alert alert--error inline-alert">{{ errorMsg() }}</span>
+    }
+  </div>
+
+  <!-- End game overlay -->
+  @if (isFinished()) {
+    <div class="result-banner" [class.result-banner--win]="isWon()" [class.result-banner--loss]="!isWon()">
+      @if (isWon()) {
+        <span class="result-icon">🏆</span>
+        <div>
+          <p class="result-title">Você venceu!</p>
+          <p class="result-sub">Pontuação: <strong>{{ score() }}</strong></p>
+        </div>
+      } @else {
+        <span class="result-icon">💀</span>
+        <div>
+          <p class="result-title">Você perdeu!</p>
+          @if (secretCode()) {
+            <p class="result-sub">O código era: <strong class="secret">{{ secretCode() }}</strong></p>
+          }
+        </div>
+      }
+      <button class="btn btn--primary" (click)="goToDashboard()">Voltar ao menu</button>
+    </div>
+  }
+
+  <div class="board-wrapper">
+    <!-- Board -->
+    <div class="board">
+      @for (row of rows(); track $index; let rowIdx = $index) {
+        <div class="board__row" [class.board__row--active]="!isFinished() && rowIdx === attempts().length">
+          <span class="row-num">{{ MAX_ATTEMPTS - rowIdx }}</span>
+
+          @if (row) {
+            <!-- Filled attempt -->
+            @for (char of row.guess.split(''); track $index) {
+              <div class="peg peg--filled" [class]="'peg--' + char">{{ char }}</div>
+            }
+            <!-- Feedback -->
+            <div class="feedback">
+              @for (p of pegsArray(row.correct_position); track p) {
+                <div class="fpeg fpeg--position" title="Posição correta"></div>
+              }
+              @for (p of pegsArray(row.correct_color); track p) {
+                <div class="fpeg fpeg--color" title="Cor correta, posição errada"></div>
+              }
+              @for (p of emptyPegs(row.correct_position + row.correct_color); track p) {
+                <div class="fpeg"></div>
+              }
+            </div>
+          } @else if (!isFinished() && rowIdx === attempts().length) {
+            <!-- Current input row -->
+            @for (pos of [0,1,2,3]; track pos) {
+              <div
+                class="peg peg--input"
+                [class]="currentGuess()[pos] ? 'peg--' + currentGuess()[pos] : 'peg--empty'"
+                [class.peg--selected]="selectedPosition() === pos"
+                (click)="selectPosition(pos)"
+              >
+                {{ currentGuess()[pos] ?? '?' }}
+              </div>
+            }
+            <div class="feedback feedback--empty">
+              @for (p of [0,1,2,3]; track p) {
+                <div class="fpeg"></div>
+              }
+            </div>
+          } @else {
+            <!-- Future empty row -->
+            @for (pos of [0,1,2,3]; track pos) {
+              <div class="peg peg--placeholder">·</div>
+            }
+            <div class="feedback feedback--empty">
+              @for (p of [0,1,2,3]; track p) {
+                <div class="fpeg"></div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="side-panel">
+      <!-- Controls panel -->
+      @if (!isFinished()) {
+        <div class="controls">
+          <p class="controls__label">Escolha a cor para a posição <strong>{{ selectedPosition() + 1 }}</strong></p>
+          <div class="color-picker">
+            @for (color of COLORS; track color) {
+              <button
+                class="peg peg--picker"
+                [class]="'peg--' + color"
+                (click)="selectColor(color)"
+                [title]="'Cor ' + color"
+              >{{ color }}</button>
+            }
+          </div>
+          <div class="controls__actions">
+            <button
+              class="btn btn--ghost btn--sm"
+              (click)="clearPosition(selectedPosition())"
+              [disabled]="currentGuess()[selectedPosition()] === null"
+            >Limpar posição</button>
+            <button
+              class="btn btn--primary"
+              (click)="submitGuess()"
+              [disabled]="!isGuessComplete || submitting()"
+            >
+              @if (submitting()) { <span class="spinner"></span> } @else { ✔ }
+              Confirmar
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Legend -->
+      <aside class="legend">
+        <h3>Legenda das bolinhas</h3>
+
+        <div class="legend__section">
+          <div class="legend-row">
+            <span class="legend-dot legend-dot--position"></span>
+            <span>Bola laranja: cor certa na posição certa.</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot legend-dot--color"></span>
+            <span>Bola branca: cor certa na posição errada.</span>
+          </div>
+          <div class="legend-row">
+            <span class="legend-dot legend-dot--empty"></span>
+            <span>Bola escura: nenhuma correspondência.</span>
+          </div>
+        </div>
+
+        <div class="legend__section">
+          <p class="legend__title">Cores das peças:</p>
+          <div class="legend-colors">
+            <span class="legend-swatch peg--A">A</span>
+            <span class="legend-swatch peg--B">B</span>
+            <span class="legend-swatch peg--C">C</span>
+            <span class="legend-swatch peg--D">D</span>
+            <span class="legend-swatch peg--E">E</span>
+            <span class="legend-swatch peg--F">F</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
