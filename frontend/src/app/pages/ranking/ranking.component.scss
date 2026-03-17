@@ -5,61 +5,10 @@
   background: var(--bg);
 }
 
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: .75rem 1.5rem;
-  background: var(--surface);
-  border-bottom: 1px solid rgba(255,255,255,.06);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-
-  &__brand {
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: var(--primary);
-  }
-
-  &__itau-logo {
-    height: 36px;
-    width: auto;
-    border-radius: 6px;
-  }
-
-  &__divider {
-    display: block;
-    width: 1px;
-    height: 28px;
-    background: rgba(255,255,255,.2);
-  }
-
-  &__title {
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: var(--primary);
-  }
-
-  &__actions {
-    display: flex;
-    align-items: center;
-    gap: .9rem;
-  }
-
-  &__section {
-    color: var(--text-muted);
-    font-size: .9rem;
-    font-weight: 600;
-  }
-}
+// Header styles are shared globally in styles.scss (.app-header)
 
 .ranking-main {
-  max-width: 860px;
+  max-width: 900px;
   margin: 2rem auto;
   padding: 0 1rem;
   width: 100%;

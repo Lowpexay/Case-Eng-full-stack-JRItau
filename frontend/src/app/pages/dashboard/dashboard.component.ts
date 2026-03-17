@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -12,7 +12,7 @@ import { User, Game } from '../../models/game.models';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   private readonly auth = inject(AuthService);
   private readonly gameService = inject(GameService);
   private readonly router = inject(Router);
@@ -21,8 +21,14 @@ export class DashboardComponent implements OnInit {
   recentGames = signal<Game[]>([]);
   loadingGame = signal(false);
   errorMsg = signal('');
+  greeting = signal('Olá');
+
+  private greetingTimer?: number;
 
   ngOnInit(): void {
+    this.updateGreeting();
+    this.greetingTimer = window.setInterval(() => this.updateGreeting(), 60_000);
+
     this.auth.getMe().subscribe({
       next: (u) => this.user.set(u),
       error: () => this.logout(),
@@ -30,6 +36,12 @@ export class DashboardComponent implements OnInit {
     this.gameService.getMyGames().subscribe({
       next: (games) => this.recentGames.set(games.slice(0, 5)),
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.greetingTimer) {
+      window.clearInterval(this.greetingTimer);
+    }
   }
 
   startGame(): void {
@@ -54,5 +66,18 @@ export class DashboardComponent implements OnInit {
     const m = Math.floor(secs / 60);
     const s = Math.floor(secs % 60);
     return m > 0 ? `${m}m ${s}s` : `${s}s`;
+  }
+
+  private updateGreeting(): void {
+    const hour = new Date().getHours();
+    if (hour < 12) {
+      this.greeting.set('Bom dia');
+      return;
+    }
+    if (hour < 18) {
+      this.greeting.set('Boa tarde');
+      return;
+    }
+    this.greeting.set('Boa noite');
   }
 }

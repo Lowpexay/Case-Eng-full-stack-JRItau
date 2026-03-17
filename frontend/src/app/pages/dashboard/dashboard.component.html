@@ -1,16 +1,16 @@
 <div class="dashboard-page">
-  <nav class="navbar">
-    <div class="navbar__logo">
-      <img src="/itau-unibanco.png" alt="Itaú Unibanco" class="navbar__itau-logo" style="height:36px;width:auto;border-radius:6px;display:block;" />
-      <span class="navbar__divider"></span>
-      🟠 <span>Mastermind</span>
+  <nav class="navbar app-header">
+    <div class="navbar__logo app-header__brand">
+      <img src="/itau-unibanco.png" alt="Itaú Unibanco" class="navbar__itau-logo app-header__logo" />
+      <span class="navbar__divider app-header__divider"></span>
+      <span class="app-header__title">🟠 <span>Mastermind</span></span>
     </div>
-    <div class="navbar__actions">
+    <div class="navbar__actions app-header__actions">
       @if (user()) {
-        <span class="navbar__user">Olá, <strong>{{ user()!.username }}</strong></span>
+        <span class="navbar__user app-header__meta">{{ greeting() }}, <strong>{{ user()!.username }}</strong></span>
       }
-      <a routerLink="/ranking" class="btn btn--outline btn--sm">🏆 Ranking</a>
-      <button class="btn btn--ghost btn--sm" (click)="logout()">Sair</button>
+      <a routerLink="/ranking" class="btn btn--outline btn--sm app-header__btn">🏆 Ranking</a>
+      <button class="btn btn--ghost btn--sm app-header__btn" (click)="logout()">Sair</button>
     </div>
   </nav>
 
@@ -22,7 +22,7 @@
         @if (errorMsg()) {
           <div class="alert alert--error">{{ errorMsg() }}</div>
         }
-        <button class="btn btn--primary btn--lg" (click)="startGame()" [disabled]="loadingGame()">
+        <button class="btn btn--primary btn--lg hero__cta" (click)="startGame()" [disabled]="loadingGame()">
           @if (loadingGame()) {
             <span class="spinner"></span> Aguarde...
           } @else {
