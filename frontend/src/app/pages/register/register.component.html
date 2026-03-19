@@ -46,12 +46,13 @@
         <label for="password">Senha</label>
         <input
           id="password" name="password" type="password"
-          [(ngModel)]="password" required minlength="6"
-          placeholder="Mínimo 6 caracteres"
+          [(ngModel)]="password" required minlength="8"
+          pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
+          placeholder="Ex.: Senha@123"
           #passwordField="ngModel"
         />
         @if (passwordField.invalid && passwordField.touched) {
-          <span class="field-error">Senha mínima de 6 caracteres.</span>
+          <span class="field-error">Use no mínimo 8 caracteres, 1 maiúscula, 1 número e 1 especial.</span>
         }
       </div>
 

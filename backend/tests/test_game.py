@@ -1,7 +1,7 @@
 import pytest
 
 
-def _register_and_login(client, username="player1", email="player1@example.com", password="pass1234"):
+def _register_and_login(client, username="player1", email="player1@example.com", password="Pass@1234"):
     client.post("/auth/register", json={"username": username, "email": email, "password": password})
     resp = client.post("/auth/login", json={"username": username, "password": password})
     return resp.json()["access_token"]

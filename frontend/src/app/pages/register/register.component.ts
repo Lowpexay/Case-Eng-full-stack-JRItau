@@ -48,6 +48,10 @@ export class RegisterComponent {
       return 'E-mail invalido. Use um formato como nome@dominio.com.';
     }
 
+    if (firstValidationError?.field === 'body.password') {
+      return 'A senha deve ter no minimo 8 caracteres, 1 letra maiuscula, 1 numero e 1 caractere especial.';
+    }
+
     if (firstValidationError?.message) {
       return firstValidationError.message;
     }

@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List, Optional
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 # ── Auth ────────────────────────────────────────────────────────────────────
@@ -9,7 +9,18 @@ from pydantic import BaseModel, EmailStr, Field
 class UserRegister(BaseModel):
     username: str = Field(..., min_length=3, max_length=50)
     email: EmailStr
-    password: str = Field(..., min_length=6)
+    password: str = Field(..., min_length=8)
+
+    @field_validator("password")
+    @classmethod
+    def validate_password_strength(cls, value: str) -> str:
+        if not any(char.isupper() for char in value):
+            raise ValueError("A senha deve conter ao menos uma letra maiúscula.")
+        if not any(char.isdigit() for char in value):
+            raise ValueError("A senha deve conter ao menos um número.")
+        if not any(not char.isalnum() for char in value):
+            raise ValueError("A senha deve conter ao menos um caractere especial.")
+        return value
 
 
 class UserLogin(BaseModel):
