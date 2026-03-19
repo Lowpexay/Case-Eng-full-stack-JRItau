@@ -34,9 +34,28 @@ export class RegisterComponent {
         setTimeout(() => this.router.navigate(['/login']), 1500);
       },
       error: (err) => {
-        this.errorMsg.set(err?.error?.detail ?? 'Erro ao criar conta. Tente novamente.');
+        this.errorMsg.set(this.extractApiError(err));
         this.loading.set(false);
       },
     });
+  }
+
+  private extractApiError(err: unknown): string {
+    const apiError = (err as { error?: { detail?: string; errors?: Array<{ field?: string; message?: string }> } })?.error;
+    const firstValidationError = apiError?.errors?.[0];
+
+    if (firstValidationError?.field === 'body.email') {
+      return 'E-mail invalido. Use um formato como nome@dominio.com.';
+    }
+
+    if (firstValidationError?.message) {
+      return firstValidationError.message;
+    }
+
+    if (apiError?.detail) {
+      return apiError.detail;
+    }
+
+    return 'Erro ao criar conta. Tente novamente.';
   }
 }
