@@ -253,3 +253,21 @@ Com o backend rodando, acesse:
   - ⬜ **Cor correta, posição errada**
 - O código secreto é gerado no backend e **nunca enviado ao frontend** durante o jogo
 - Ao acabar (vitória ou esgotamento), o código secreto é revelado e a pontuação calculada
+
+
+---
+## Prints das telas do Projeto
+### Tela de login
+<img width="1919" height="904" alt="image tela login" src="https://github.com/user-attachments/assets/081a5835-c423-4612-a421-a3941ac216f2" />
+
+### Tela de Cadastro
+<img width="1919" height="907" alt="image" src="https://github.com/user-attachments/assets/97af98f0-6ea4-4f16-ae30-b0d9d73d019c" />
+
+### Tela inicial
+<img width="1919" height="916" alt="image" src="https://github.com/user-attachments/assets/d695ba40-d25e-4428-8a34-7b3a28894afd" />
+
+### Tela do jogo iniciado
+<img width="1919" height="909" alt="image" src="https://github.com/user-attachments/assets/ce0ac365-f0ea-4ddd-9136-20123cac98a0" />
+
+### Tela do Ranking Global
+<img width="1919" height="906" alt="image" src="https://github.com/user-attachments/assets/2fa55c89-3612-4b54-b7a9-dfe718db2d99" />
