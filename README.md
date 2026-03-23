@@ -189,7 +189,7 @@ venv\Scripts\activate   # ou source venv/bin/activate
 pytest tests/ -v
 ```
 
-Resultado esperado: **16 testes passando**
+Resultado esperado: **19 testes passando**
 
 ### Frontend
 
