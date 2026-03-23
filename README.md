@@ -17,7 +17,7 @@ Um jogo Mastermind digital completo, com autenticação JWT, lógica de jogo no 
 - [Documentação da API](#documentação-da-api)
 - [Decisões técnicas](#decisões-técnicas)
 - [Regras do jogo](#regras-do-jogo)
-- [Prints das telas do jogo] (#prints-das-telas-do-projeto)
+- [Prints das telas do jogo](#prints-das-telas-do-projeto)
 
 ---
 
